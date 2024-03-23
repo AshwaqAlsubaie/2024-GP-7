@@ -1,0 +1,169 @@
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.footer {
+    padding: 0;
+    margin: 0;
+}
+
+.footer .container {
+    padding: 0;
+    margin: 0;
+}
+
+.truck, .wrapper {
+    margin-bottom: 0;
+}
+
+
+.wrapper
+{
+    
+    background-color: #CCE3EB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top:  20px;
+}
+#crud 
+{
+    width: 90%;
+    background-color: #85B6C6;
+    text-align: center;
+}
+#crud caption
+{
+    background-color: #CCE3EB;
+    color: #fff;
+    padding: 10px 0;
+    font-size: 1.5rem;
+}
+#crud thead
+{
+    background-color:aliceblue;
+   
+}
+#crud thead td
+{
+    padding: 10px;
+    color: #009688;
+}
+#crud tbody td
+{
+    padding: 10px;
+    border-bottom: 1px solid rgb(21, 10, 10);
+    color: #160303;
+}
+#crud tbody td button,.add-user
+{
+    padding: 5px 7px;
+    border:none;
+    background: transparent;
+    font-family: cursive;
+    font-size: .9rem;
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+
+
+.wrapper {
+    width: 70%;
+    margin: 0 auto;
+}
+
+header {
+    background-color: #011309;
+    color: #8f0b0b;
+    text-align: center;
+}
+
+#crud {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+input[type="text"] {
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 8px;
+}
+
+.green-background {
+    background-color: #2ecc71;
+    color: #fff;
+}
+.search-bar {
+    margin-top: 20px;
+    text-align: center;
+}
+
+label {
+    margin-right: 10px;
+}
+
+#searchInput {
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* أسلوب الجدول */
+#crud {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+caption {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+
+.fa-plus {
+    color: rgb(0, 0, 0);
+    
+}
+
+
+.fa-exclamation {
+    color: red;
+}
+.icon {
+    transition: filter 0.3s; 
+}
+
+.icon:hover {
+    filter: brightness(70%);
+}
+

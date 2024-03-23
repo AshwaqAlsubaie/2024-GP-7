@@ -1,0 +1,491 @@
+
+
+
+/*--------------------------------------------------------------------- import Fonts ---------------------------------------------------------------------*/
+
+@import url('https://fonts.googleapis.com/css?family=Rajdhani:300,400,500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+@import url('https://fonts.googleapis.com/css?family=Raleway:100,400,600,700,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Baloo+Chettan&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,600i,700,700i,800&display=swap');
+
+/*****---------------------------------------- 1) font-family: 'Rajdhani', sans-serif;
+ 2) font-family: 'Poppins', sans-serif;
+ ----------------------------------------*****/
+
+
+/*--------------------------------------------------------------------- import Files ---------------------------------------------------------------------*/
+
+@import url(animate.min.css);
+@import url(normalize.css);
+@import url(icomoon.css);
+@import url(font-awesome.min.css);
+@import url(meanmenu.css);
+@import url(owl.carousel.min.css);
+@import url(swiper.min.css);
+@import url(slick.css);
+@import url(jquery.fancybox.min.css);
+@import url(jquery-ui.css);
+@import url(nice-select.css);
+
+/*--------------------------------------------------------------------- skeleton ---------------------------------------------------------------------*/
+
+* {
+     box-sizing: border-box !important;
+}
+
+.container {
+     max-width: 1170px;
+     
+}
+
+html {
+     scroll-behavior: smooth;
+}
+
+body {
+    background-color: #a8a8bde6;
+     color: #666666;
+     font-size: 14px;
+     font-family: 'Poppins', sans-serif;
+     line-height: 1.80857;
+     font-weight: normal;
+     height:fit-content;
+}
+
+a {
+     color: #1f1f1f;
+     text-decoration: none !important;
+     outline: none !important;
+     -webkit-transition: all .3s ease-in-out;
+     -moz-transition: all .3s ease-in-out;
+     -ms-transition: all .3s ease-in-out;
+     -o-transition: all .3s ease-in-out;
+     transition: all .3s ease-in-out;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+     letter-spacing: 0;
+     font-weight: normal;
+     position: relative;
+     padding: 0 0 10px 0;
+     font-weight: normal;
+     line-height: normal;
+     color: #112374;
+     margin: 0
+}
+
+h1 {
+     font-size: 24px;
+}
+
+h2 {
+     font-family: 'Raleway', sans-serif;
+     font-size: 22px;
+}
+
+h3 {
+     font-size: 18px;
+}
+
+h4 {
+     font-size: 16px
+}
+
+h5 {
+     font-size: 14px
+}
+
+h6 {
+     font-size: 13px
+}
+
+*,
+*::after,
+*::before {
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     box-sizing: border-box;
+}
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+     color: #212121;
+     text-decoration: none!important;
+     opacity: 1
+}
+
+button:focus {
+     outline: none;
+}
+
+ul,
+li,
+ol {
+     margin: 0px;
+     padding: 0px;
+     list-style: none;
+}
+
+p {
+     margin: 0px;
+     font-weight: 500;
+     font-size: 15px;
+     line-height: 24px;
+}
+
+a {
+     color: #222222;
+     text-decoration: none;
+     outline: none !important;
+}
+
+a,
+.btn {
+     text-decoration: none !important;
+     outline: none !important;
+     -webkit-transition: all .3s ease-in-out;
+     -moz-transition: all .3s ease-in-out;
+     -ms-transition: all .3s ease-in-out;
+     -o-transition: all .3s ease-in-out;
+     transition: all .3s ease-in-out;
+}
+
+
+ :focus {
+     outline: 0;
+}
+
+.btn-custom {
+     margin-top: 20px;
+     background-color: transparent !important;
+     border: 2px solid #ddd;
+     padding: 12px 40px;
+     font-size: 16px;
+}
+
+.lead {
+     font-size: 18px;
+     line-height: 30px;
+     color: #767676;
+     margin: 0;
+     padding: 0;
+}
+
+
+
+.badge {
+     font-weight: 500;
+}
+
+blockquote {
+     margin: 20px 0 20px;
+     padding: 30px;
+}
+
+button {
+     border: 0;
+     margin: 0;
+     padding: 0;
+     cursor: pointer;
+}
+
+.full {
+     float: left;
+     width: 100%;
+}
+
+.full {
+     width: 100%;
+     float: left;
+     margin: 0;
+     padding: 0;
+}
+
+.text_align_center {
+     text-align: center;
+}
+
+.text_align_left {
+     text-align: left;
+}
+
+.text_align_right {
+     text-align: right;
+}
+
+
+/**-- heading section --**/
+
+
+/*-- header --*/
+
+.header {
+     width: 100%;
+     height: 116px;
+     margin-bottom: 30px;
+     margin-bottom: 10px;
+}
+
+.header {
+     display: flex;
+}
+
+.header_bottom {
+     background-color: #ffffff4b;
+     height: 100px;
+     padding: 25px 25px;
+     display: flex;
+     align-items: center;
+}
+
+
+
+/* added css*/
+
+.logo img{
+     width: 70;
+     margin-right: 10px;
+
+}
+.logo {
+     flex: 3;
+     
+}
+
+.logo a{
+
+     display: flex;
+     align-items: center;
+}
+.nav-link{
+     justify-content:flex-end;
+     display: flex;
+     margin-top: 40px;
+     margin-left: 100px
+     ;
+    
+}
+
+.collapse navbar-collapse{
+     display: flex;
+     align-items: center;
+     position: relative;
+}
+
+.collapse navbar-collapse li{
+     padding: 15px 10px;
+     font-size: 19px;
+     justify-items: flex-end;
+}
+
+
+/*-- navigation--*/
+
+.navigation.navbar {
+     float: right;
+     padding: 0;
+}
+
+.navigation.navbar-dark .navbar-nav .nav-link {
+     padding: 15px 25px;
+     color: #161825;
+     font-size: 16px;
+     line-height: 20px;
+     font-weight: 500;
+     text-transform: uppercase;
+}
+
+.navigation.navbar-dark .navbar-nav .nav-link:focus,
+.navigation.navbar-dark .navbar-nav .nav-link:hover {
+     background: #ebd617a5;
+     color: #fff;
+     border-radius: 6px;
+}
+
+.navigation.navbar-dark .navbar-nav .active>.nav-link,
+.navigation.navbar-dark .navbar-nav .nav-link.active,
+.navigation.navbar-dark .navbar-nav .nav-link.show,
+.navigation.navbar-dark .navbar-nav .show>.nav-link {
+     background: #f1d140e3;
+     color: #fff;
+     border-radius: 6px;
+}
+
+.navbar-expand-md .navbar-nav {
+     padding-right: 10px;
+     
+}
+ 
+
+
+
+.d_flex {
+     display: flex;
+     align-items: center;
+     flex-wrap: wrap;
+}
+
+
+
+/** footer **/
+
+.footer {
+     background: linear-gradient(270deg, #373746e6, #0c023e);
+     padding-top: 90px;
+     text-align: center;
+     margin-bottom:0;
+     
+}
+
+.border_top1 {
+     border-top: #e7bf59 solid 3px;
+     padding-bottom: 60px;
+}
+
+
+
+.copyright {
+     margin-top: 60px;
+}
+
+.many {
+     display: inline-block;
+     color: #fff;
+     font-size: 17px;
+     line-height: 32px;
+     font-weight: normal;
+     text-align: left;
+}
+
+.copyright p {
+     color: #e7bf59;
+     font-size: 20px;
+     line-height: 22px;
+     text-align: center;
+     padding-top: 26px;
+     font-weight: normal;
+     padding-bottom: 20px;
+     border-top: #fff solid 1px;
+}
+
+/** end footer **/
+
+
+/** endinner page css **/
+
+.inner_page .full_bg {
+     background-color: #e1dfdf !important;
+     background: transparent;
+}
+
+.back_re {
+     background-color: #eead4c;
+}
+
+.back_re .title {
+     text-align: center;
+}
+
+.back_re .title h2 {
+     color: #ece3d7;
+     font-size: 40px;
+     padding: 40px 0;
+     font-weight: 600;
+     text-transform: uppercase;
+     line-height: 35px;
+     padding-top: 69px;
+}
+
+.margin_0 {
+     margin: 0 !important;
+}
+
+.inner_page .footer {
+     margin-top: 90px;
+}
+
+
+/*truck*/
+
+.truck {
+     padding-top: 60px;
+}
+
+.truck_img1 {
+     width: 244px;
+     height: 147px;
+     position: relative;
+     position: relative;
+     -webkit-animation: myfirst 15s linear 0s infinite alternate;
+     /* Safari 4.0 - 8.0 */
+     animation: myfirst 15s linear 0s infinite alternate;
+}
+
+
+/* Safari 4.0 - 8.0 */
+
+@-webkit-keyframes myfirst {
+     0% {
+          left: 0px;
+          top: 0;
+     }
+     20% {
+          left: 10%;
+          top: 0;
+     }
+     40% {
+          left: 20%;
+          top: 0;
+     }
+     60% {
+          left: 30%;
+          top: 0;
+     }
+     80% {
+          left: 40%;
+          top: 0;
+     }
+     100% {
+          left: 50%;
+          top: 0;
+          ;
+     }
+     /* Standard syntax */
+     @keyframes myfirst {
+          0% {
+               left: 0px;
+               top: 0;
+          }
+          20% {
+               left: 10%;
+               top: 0;
+          }
+          40% {
+               left: 20%;
+               top: 0;
+          }
+          60% {
+               left: 30%;
+               top: 0;
+          }
+          80% {
+               left: 40%;
+               top: 0;
+          }
+          100% {
+               left: 50%;
+               top: 0;
+               transform: rotateY(180deg)
+          }
+     }
+     /* end truck*/
