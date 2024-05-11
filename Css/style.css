@@ -274,8 +274,19 @@ button {
   
 
 }
+.icon {
+ 
+     width: 40px;
+   height: auto;
+     
+   
+
+}
 
 
+    
+
+ 
 
 /* added css*/
 
@@ -583,6 +594,7 @@ button {
 
 
 /** endinner page css **/
+
 
 .inner_page .full_bg {
      background-color: #e1dfdf !important;
