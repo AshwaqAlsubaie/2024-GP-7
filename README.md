@@ -16,10 +16,10 @@ the use of helmet attributes at work.
 
 technology:
 -firebase
-- css, html, js
+- css, html, js, php
 - Arduino
 
 
 launching instructions:
-For the website, download all the files in a folder and then open it in a IDE that supports web languages, such as Visual Studio, NetBeans, etc.
+For the website, download all the files in a folder and then open it in a IDE that supports web languages, such as Visual Studio, NetBeans, etc. We needed the composer to be able to load libraries in php like: PHPMailer
 For the Arduino, Open the Arduino file in Arduino, but the devices used in this project must be available.
