@@ -1,0 +1,64 @@
+{
+    "admin": {
+        "email": "abc@admin.com",
+        "password": "12345678"
+    },
+    
+    "workers": {
+        "worker1": {
+            "ID": "101",
+            "name": "Rajesh Kumar",
+            "phoneNumber": "501000001",
+            "sensorID": "Sensors1"
+        },
+        "worker2": {
+            "ID": "102",
+            "name": "Priya Singh",
+            "phoneNumber": "502000002",
+            "sensorID": "Sensors2"
+        },
+        "worker3": {
+            "ID": "103",
+            "name": "Amit Patel",
+            "phoneNumber": "503000003",
+            "sensorID": "Sensors3"
+        },
+        "worker4": {
+            "ID": "104",
+            "name": "Anjali Sharma",
+            "phoneNumber": "504000004",
+            "sensorID": "Sensors4"
+        },
+        "worker5": {
+            "ID": "105",
+            "name": "Vijay Chauhan",
+            "phoneNumber": "505000005",
+            "sensorID": "Sensors5"
+        },
+        "worker6": {
+            "ID": "106",
+            "name": "Sunita Gupta",
+            "phoneNumber": "506000006",
+            "sensorID": "Sensors6"
+        },
+        "worker7": {
+            "ID": "107",
+            "name": "Sanjay Ali",
+            "phoneNumber": "507000007",
+            "sensorID": "Sensors7"
+        },
+        "worker8": {
+            "ID": 108,
+            "name": "Sherman",
+            "phoneNumber": "507000087",
+            "sensorID": "Sensors8"
+        },
+        "worker9": {
+            "ID": 109,
+            "name": "Leeda",
+            "phoneNumber": "507066007",
+            "sensorID": "Sensors9"
+        }
+    }
+    
+}
