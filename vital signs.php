@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+ if(!$_SESSION['role'] == 'supervisor')
+ {
+    header("location: preLogin.php");
+ }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +15,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VITAL SIGNS </title>
-
+<style>
+   /* CSS styling for temperature image */
+   .temperature-image {
+    width: 40px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+    /* Add any other styling properties here */
+}
+.heart-rate-image {
+   width: 40px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+    /* Add any other styling properties here */
+}
+</style>
 <!-- Firebase scripts -->
 <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-database-compat.js"></script>
@@ -21,6 +43,7 @@
 <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
 <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+
 
 <!-- mobile metas -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,7 +72,7 @@
                        <div class="full">
                           <div class="center-desk">
                              <div class="logo">
-                               <a href="index.html" ><img class="nav-img" src="img/Screenshot_2024-02-16_160751-removebg-preview.png" alt="logo"/></a>
+                               <a href="index.php" ><img class="nav-img" src="img/Screenshot_2024-02-16_160751-removebg-preview.png" alt="logo"/></a>
                              </div>
                           </div>
                        </div>
@@ -62,7 +85,7 @@
                           <div class="collapse navbar-collapse" id="navbarsExample04">
                              <ul class="navbar-nav mr-auto">
                                 <li class="nav-item active">
-                                   <a class="nav-link" href="html/login_page.html">Log Out</a>
+                                   <a class="nav-link" href="logout.php">Log Out</a>
                                 </li>
                              </ul>
                           </div>
@@ -76,13 +99,16 @@
   </div>
   <!-- end header inner -->
   <!-- end header -->
-
+  <div class="name-box">
+   <h3 style="color:blanchedalmond">Icon Names: </h3> 
+   <p style="color: rgb(91, 233, 122);" ><img src="images/normal.png" class="icon" alt="Normal" > Normal </p>
+   <p style="color: rgb(216, 234, 101);" ><img src="images/yellow.png" class="icon" alt="Mild High" > Mild High</p>
+   <p style="color: rgb(250, 83, 80);" ><img src="images/abnormal.png" class="icon" alt="AbNormal"> AbNormal</p> <br>
+</div>
 
 
    <div class="wrapper">
-
-<p>Date and Time: <span id="currentDateTime"></span></p>
-
+      <p>Date and Time: <span id="currentDateTime"></span></p>
 <div class="search-bar">
 <label for="searchInput">Search:</label>
 <input type="text" id="searchInput" oninput="searchTable()" placeholder="Search by Name or ID">
@@ -91,14 +117,16 @@
 <table id="crud">
 <caption></caption>
 <thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Statuse</th>
-</tr>
-</thead>
+   <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Status</th> 
+      <th>Vital Signs</th>
+      </tr>
+   </thead>
 <tbody id="tableBody">        
 </tbody>
+
  </table>
 </div>
 
@@ -231,104 +259,151 @@
   const tableBody = document.getElementById('tableBody');
 
 
-  
 
   // Function to populate the table with workers
   function populateTable(snapshot) {
     tableBody.innerHTML = '';
     snapshot.forEach(childSnapshot => {
       const worker = childSnapshot.val();
+      
       appendWorkerToTable(worker);
     });
   }
 
- // Function to append a worker to the table or update existing entry
-function appendWorkerToTable(worker) {
-  // Retrieve sensor data using sensorID
-  const sensorRef = firebase.database().ref('Sensor/' + worker.sensorID);
-  sensorRef.on('value', (sensorSnapshot) => {
-    const sensorData = sensorSnapshot.val();
-    let heartRateValue = parseFloat(sensorData.BPM);
-let temperatureValue = parseFloat(sensorData.BodyTemperature);
+  // Function to append a worker to the table or update existing entry
+  function appendWorkerToTable(worker) {
+    // Retrieve sensor data using sensorID
+    const sensorRef = firebase.database().ref('Sensor/' + worker.sensorID);
+    sensorRef.on('value', (sensorSnapshot) => {
+        const sensorData = sensorSnapshot.val();
+        let heartRateValue = parseFloat(sensorData.BPM);
+        let temperatureValue = parseFloat(sensorData.BodyTemperature);
 
-// Check if the parsed values are NaN
-let heartRate = isNaN(heartRateValue) ? 'Unavailable' : heartRateValue.toFixed(1);
-let temperature = isNaN(temperatureValue) ? 'Unavailable' : temperatureValue.toFixed(1);
+        // Check if the parsed values are NaN
+        let heartRate = isNaN(heartRateValue) ? 'Unavailable' : heartRateValue.toFixed(1);
+        let temperature = isNaN(temperatureValue) ? 'Unavailable' : temperatureValue.toFixed(1);
 
-    var color = '';
-    if (temperature !== 'N/A') {
-        const tempValue = parseInt(temperature);
-        if (tempValue > 39) {
-          color = '#E47374'; // Red for high temperature
-        } else if (tempValue >= 37) {
-          color = '#F4D688'; // Yellow for mild high temperature
+        var color = '';
+        var temperatureImage = '';
+        var heartRateImage = '';
+
+                if (temperature !== 'Unavailable') {
+            const tempValue = parseInt(temperature);
+            if ((tempValue > 39 || tempValue<36) || (heartRateValue < 60 || heartRateValue > 120)) {
+                color = '#E47374'; // Red for high temperature
+                temperatureImage = 'images/abnormal.png';
+            } else if ((tempValue > 37.2 && tempValue<=39)|| (heartRateValue >= 110 && heartRateValue <= 120)) {
+                color = '#F4D688'; // Yellow for mild high temperature
+                temperatureImage = 'images/yellow.png'; // Add the image for mild high temperature
+            } else if((tempValue <=37 && tempValue>36) ||(heartRateValue >=60 || heartRateValue <= 109)){
+                temperatureImage = 'images/normal.png';
+            }
+        } else {
+            temperatureImage = ''; // No image if temperature is unavailable
+            heartRateImage= '';
         }
-      }
 
-      if (heartRate !== 'N/A' && color !== '#E47374') {
-        const heartRateValue = parseInt(heartRate);
-        if (heartRateValue < 55 || heartRateValue > 120) {
-          color = '#E47374'; // Red for abnormal heart rate
-        } else if (heartRateValue >= 110 && heartRateValue <= 120) {
-          color = '#F4D688'; // Yellow for elevated heart rate
+
+      // Check if a row for this worker already exists
+let tr = document.querySelector(`tr[data-worker-id="${worker.ID}"]`);
+
+if (!tr) {
+    // If it doesn't exist create a new row
+    tr = document.createElement('tr');
+    tr.setAttribute('data-worker-id', worker.ID); // Set a data attribute to identify the row
+
+    supervisorId = <?php echo json_encode($_SESSION['record']); ?>
+
+    let supervisorRef = firebase.database().ref(`supervisors/${supervisorId}/workerIDs`);
+    supervisorRef.once('value', function(snapshot) {
+
+        worker_ids = snapshot.val();
+        let worker_ids_arr = worker_ids.split(',').map(item => parseInt(item.trim())); // Split the string by comma and remove any leading/trailing whitespace
+
+        if(!worker_ids_arr.includes(parseInt(worker.ID)))
+        {
+             tr.style.display = 'none';
+
         }
-      }
+        else{
+        }
+    });
 
-    // Check if a row for this worker already exists
-    let tr = document.querySelector(`tr[data-worker-id="${worker.ID}"]`);
+    // Create cells for ID, name, status, temperature, and heart rate
+    const idCell = document.createElement('td');
+    idCell.textContent = worker.ID;
+    const nameCell = document.createElement('td');
+    nameCell.textContent = worker.name;
 
-    if (!tr) {
-      // If it doesn't exist create a new row
-      tr = document.createElement('tr');
-      tr.setAttribute('data-worker-id', worker.ID); // Set a data attribute to identify the row
+    // Create status cell and its content
+    const statusCell = document.createElement('td');
+    statusCell.className = 'status-cell';
+    statusCell.style.backgroundColor = color;
+    const toggleIcon = document.createElement('i');
+    toggleIcon.className = "fa-solid fa-plus";
+    toggleIcon.onclick = function () { toggleOptions(this); };
+    statusCell.appendChild(toggleIcon);
 
-      // Add the plus icon 
-      const toggleCell = document.createElement('td');
-      toggleCell.className = 'status-cell';
-      toggleCell.style.backgroundColor = color;
-      const toggleIcon = document.createElement('i');
-      toggleIcon.className = "fa-solid fa-plus";
-      toggleIcon.onclick = function() { toggleOptions(this); };
-      toggleCell.appendChild(toggleIcon);
+    // Add the options div
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'options';
+    optionsDiv.style.display = 'none';
+    optionsDiv.innerHTML = `<p>HeartRate: <span class="heart-rate">${heartRate}</span></p>
+                            <p>Temperature: <span class="temperature">${temperature}</span></p>`;
+    statusCell.appendChild(optionsDiv);
 
-      // Add the options div
-      const optionsDiv = document.createElement('div');
-      optionsDiv.className = 'options';
-      optionsDiv.style.display = 'none';
-      optionsDiv.innerHTML = `<p>HeartRate: <span class="heart-rate">${heartRate}</span></p>
-                              <p>Temperature: <span class="temperature">${temperature}</span></p>`;
-      toggleCell.appendChild(optionsDiv);
-      const idCell = document.createElement('td');
-idCell.textContent = worker.ID;
-const nameCell = document.createElement('td');
-nameCell.textContent = worker.name;
+    // Create cells for temperature and heart rate
+    const temperatureCell = document.createElement('td');
+    const temperatureImg = document.createElement('img');
+    temperatureImg.className = 'temperature-image';
+    temperatureImg.src = temperatureImage;
+    temperatureCell.appendChild(temperatureImg);
 
-// Append cells to the row
-tr.appendChild(idCell);
-tr.appendChild(nameCell);
-tr.appendChild(toggleCell);
+    // Append the row to the table body
+    tr.appendChild(idCell);
+    tr.appendChild(nameCell);
+    tr.appendChild(statusCell);
+    tr.appendChild(temperatureCell);
 
-// Append the row to the table body
-tableBody.appendChild(tr);
+    // Append the row to the table body
+    tableBody.appendChild(tr);
 } else {
-// If the row exists update the status color and the values
-const statusCell = tr.querySelector('.status-cell');
-const heartRateSpan = tr.querySelector('.heart-rate');
-const temperatureSpan = tr.querySelector('.temperature');
+    // If the row exists update the status color and the values
+    const statusCell = tr.querySelector('.status-cell');
+    const heartRateSpan = tr.querySelector('.heart-rate');
+    const temperatureSpan = tr.querySelector('.temperature');
+    const temperatureImg = temperatureSpan.querySelector('.temperature-image');
+    const heartRateImg = heartRateSpan.querySelector('.heart-rate-image');
 
-statusCell.style.backgroundColor = color;
-heartRateSpan.textContent = heartRate;
-temperatureSpan.textContent = temperature;
+    statusCell.style.backgroundColor = color;
+    heartRateSpan.textContent = heartRate;
+    temperatureSpan.textContent = temperature;
+    temperatureImg.src = temperatureImage;
+    heartRateImg.src = heartRateImage;    
+
+  
 }
+
+
+    });
+}
+
+database.on('value', snapshot => {
+
+        populateTable(snapshot);
+
 });
-}
 
+supervisorId = <?php echo json_encode($_SESSION['record']); ?>
 
-  // Initial loading of data
-  database.on('value', snapshot => {
-    populateTable(snapshot);
-  });
+  let supervisorRef = firebase.database().ref(`supervisors/${supervisorId}/workerIDs`);
+  supervisorRef.once('value', function(snapshot) {
 
+    worker_ids = snapshot.val();
+    let worker_ids_arr = worker_ids.split(',').map(item => parseInt(item.trim())); // Split the string by comma and remove any leading/trailing whitespace
+
+  
+});
 </script>
 </body>
 
