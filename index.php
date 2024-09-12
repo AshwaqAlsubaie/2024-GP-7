@@ -170,7 +170,7 @@ if(!$_SESSION['role'] == 'supervisor')
    //  import { createFFmpeg, fetchFile } from '.@ffmpeg/ffmpeg/dist/ffmpeg.min.js';
 
 
-    // Your Firebase config
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyD02_rLhSo8zX3PGFN6pZS3Eg5szrxZ1QA",
       authDomain: "smart-helmet-database-affb6.firebaseapp.com",
