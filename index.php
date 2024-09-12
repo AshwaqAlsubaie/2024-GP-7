@@ -410,4 +410,3 @@ document.getElementById('uploadBtn').addEventListener('click', () => {
 
 </body>
 </html>
-</html>
