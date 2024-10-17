@@ -27,86 +27,117 @@ $supervisorId = json_encode($_SESSION['record']); // Encode supervisor ID for Ja
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
-    <style>
- .table-container {
-    width: 80%; /* Adjust width as needed */
-    margin: 0 auto; /* This centers the div */
-    padding: 20px; /* Optional: for some spacing around the table */
-    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Optional: adds shadow for better focus */
-}
- table {
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-    border-collapse: collapse;
-}
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #283048, #859398); /* Updated background gradient */
+            color: white;
+        }
+        
+        .full_bg, .header {
+            background: linear-gradient(to right, #283048, #859398); /* Matches body background */
+            color: white;
+            padding-bottom: 15px;
+        }
 
-th, td {
-    border: 1px solid black;
-    padding: 8px;
-    text-align: left;
-    
-}
-#vitalsignsTable td img {
-    width: 5px; /* Slightly larger for visibility */
-    height: 5px; /* Adjusted to maintain aspect ratio */
-}
+        .table-container {
+            width: 80%; 
+            margin: 0 auto; 
+            padding: 20px; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.1); 
+            border-radius: 10px; 
+            background: #ffffff; /* White background for the table container */
+        }
 
+        table {
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            border-collapse: collapse;
+        }
 
+        th, td {
+            padding: 15px; 
+            text-align: center; 
+            vertical-align: middle;
+        }
 
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
+        th {
+            background-color: #005b9a;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-.red {
-    background-color: #ffcccc;
-}
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
 
-.yellow {
-    background-color: #ffff99;
-}
-.lang{
- color: white;   
-}
-.status-legend {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #00FFFFFF;
-}
+        tbody tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
 
-.legend-items {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
+        tbody tr.red {
+            background-color: #ffcccc !important;
+        }
 
-.legend-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        tbody tr.yellow {
+            background-color: #ffff99 !important;
+        }
 
-.legend-item img {
-    width: 40px; /* Adjust size as needed */
-    height: auto;
-}
+        #searchInput {
+            width: 50%;
+            margin-bottom: 20px; 
+            padding: 10px; 
+            font-size: 16px;
+            border-radius: 5px; 
+            border: 1px solid #ccc; 
+        }
 
-.legend-item span {
-    margin-top: 5px;
-    font-weight: bold;
-}
+        .table-responsive {
+            margin-top: 20px;
+        }
 
-th {
-    text-align: center;  /* Centers text horizontally */
-    vertical-align: middle; /* Centers text vertically (optional) */
-    color: black; /* Sets text color to black */
-}
-#searchInput{
-   margin-bottom: 40px; 
-}
+        .status-img {
+            width: 30px; 
+            height: auto;
+        }
 
+        .status-legend h3 {
+            color: #f9f9f9; 
+            font-size: 1.5em; 
+            font-weight: bold; 
+            text-align: center;
+        }
 
-</style>
+        .status-legend {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .legend-items {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .legend-item img {
+            width: 25px;
+            height: auto;
+            margin-right: 8px;
+        }
+
+        .legend-item span {
+            font-weight: bold;
+            color: #ffffff;
+        }
+    </style>
 </head>
 
 <body>
@@ -275,13 +306,49 @@ function addToTable(worker, sensorData) {
         statusImg.style.display = ''; // Show image otherwise
         statusImg.style.width = '40px';
 
-        if ((sensorData.BodyTemperature > 39 || sensorData.BodyTemperature < 36) || (sensorData.BPM > 120 || sensorData.BPM < 60) || sensorData.GasDetected == "Detected") {
-            color = '#ffcccc';
+        // If the worker is in a critical state or needs attention
+        if ((sensorData.BodyTemperature > 39 || sensorData.BodyTemperature < 36) || 
+            (sensorData.BPM > 120 || sensorData.BPM < 60) || 
+            sensorData.GasDetected === "Detected") {
+
+            color = '#ffcccc'; // Critical color
             statusImg.src = 'images/abnormal.png';
-        } else if ((sensorData.BodyTemperature > 37.2 && sensorData.BodyTemperature <= 39) || (sensorData.BPM > 110 && sensorData.BPM <= 120)) {
-            color = '#ffff99';
+            fetch('send_message.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: " the worker status is Critical !",
+                to: "966557432624" 
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.log('Message sent', data))
+        .catch(error => console.error('Error:', error));
+   
+         
+
+        } else if ((sensorData.BodyTemperature > 37.2 && sensorData.BodyTemperature <= 39) || 
+                   (sensorData.BPM > 110 && sensorData.BPM <= 120)) {
+
+            color = '#ffff99'; // Needs Attention color
             statusImg.src = 'images/yellow.png';
-        } else if ((sensorData.BodyTemperature >= 36 && sensorData.BodyTemperature <= 37.1) || (sensorData.BPM > 60 && sensorData.BPM <= 110) || (sensorData.GasDetected == "No Gas Detected")) {
+            fetch('send_message.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: " the worker status is Needs Attention !",
+                to: "966557432624" 
+            })
+        })
+
+        } else if ((sensorData.BodyTemperature >= 36 && sensorData.BodyTemperature <= 37.1) || 
+                   (sensorData.BPM > 60 && sensorData.BPM <= 110) || 
+                   sensorData.GasDetected === "No Gas Detected") {
+
             statusImg.src = 'images/normal.png';
         }
     }
@@ -312,6 +379,8 @@ function searchTable() {
 }
 
 window.onload = fetchWorkers;
+
+
 </script>
 
 
