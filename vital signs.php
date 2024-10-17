@@ -210,6 +210,7 @@ $supervisorId = json_encode($_SESSION['record']); // Encode supervisor ID for Ja
                 <th>Temperature</th>
                 <th>Heart Rate</th>
                 <th>Gas</th>
+                <th>Falling</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -272,6 +273,8 @@ function addToTable(worker, sensorData) {
         const tempCell = document.createElement('td');
         const bpmCell = document.createElement('td');
         const gasDetected = document.createElement('td'); // Gas cell
+        const fallDetected = document.createElement('td'); // Gas cell
+
         const statusImgCell = document.createElement('td'); // Status cell
         const statusImg = document.createElement('img');
 
@@ -281,6 +284,7 @@ function addToTable(worker, sensorData) {
         tr.appendChild(tempCell);
         tr.appendChild(bpmCell);
         tr.appendChild(gasDetected); // Add gas cell before status cell
+        tr.appendChild(fallDetected); // Add gas cell before status cell
         tr.appendChild(statusImgCell); // Add status cell last
 
         tableBody.appendChild(tr);
@@ -289,11 +293,14 @@ function addToTable(worker, sensorData) {
     const tempCell = tr.children[2];
     const bpmCell = tr.children[3];
     const gasDetected = tr.children[4];
-    const statusImg = tr.children[5].firstChild; // Updated index for status image
+    const fallDetected = tr.children[5];
+
+    const statusImg = tr.children[6].firstChild; // Updated index for status image
 
     tempCell.textContent = sensorData.BodyTemperature ? `${sensorData.BodyTemperature}°C` : 'Unavailable';
     bpmCell.textContent = sensorData.BPM ? `${sensorData.BPM} bpm` : 'Unavailable';
     gasDetected.textContent = `${sensorData.GasDetected}`;
+    fallDetected.textContent = `${sensorData.FallDetected}`;
 
     // Set default color and image source
     let color = 'white';  // Default background color
@@ -309,7 +316,7 @@ function addToTable(worker, sensorData) {
         // If the worker is in a critical state or needs attention
         if ((sensorData.BodyTemperature > 39 || sensorData.BodyTemperature < 36) || 
             (sensorData.BPM > 120 || sensorData.BPM < 60) || 
-            sensorData.GasDetected === "Detected") {
+            sensorData.GasDetected === "Detected" || sensorData.FallDetected === "Detected") {
 
             color = '#ffcccc'; // Critical color
             statusImg.src = 'images/abnormal.png';
@@ -347,7 +354,7 @@ function addToTable(worker, sensorData) {
 
         } else if ((sensorData.BodyTemperature >= 36 && sensorData.BodyTemperature <= 37.1) || 
                    (sensorData.BPM > 60 && sensorData.BPM <= 110) || 
-                   sensorData.GasDetected === "No Gas Detected") {
+                   sensorData.GasDetected === "No Gas Detected" ) {
 
             statusImg.src = 'images/normal.png';
         }
