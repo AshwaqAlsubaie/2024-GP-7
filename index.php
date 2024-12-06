@@ -34,7 +34,9 @@ $supervisorId = json_encode($_SESSION['record']); // Encode supervisor ID for Ja
    <!-- Scrollbar Custom CSS -->
    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
    <!-- Tweaks for older IEs-->
-   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+   <!-- <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"> -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
       media="screen">
    <style>
@@ -135,45 +137,8 @@ $supervisorId = json_encode($_SESSION['record']); // Encode supervisor ID for Ja
    <!-- header -->
    <header class="full_bg">
       <!-- header inner -->
-      <div class="header">
-         <div class="container">
-               <div class="row">
-                  <div class="col-md-12">
-                     <div class="header_bottom">
-                           <div class="row">
-                              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
-                                 <div class="full">
-                                       <div class="center-desk">
-                                          <div class="logo">
-                                             <a href="index.php"><img class="nav-img"
-                                                      src="img/Screenshot_2024-02-16_160751-removebg-preview.png"
-                                                      alt="#" /></a>
-                                          </div>
-                                       </div>
-                                 </div>
-                              </div>
-                              <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-                                 <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                                       <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                          data-target="#navbarsExample04" aria-controls="navbarsExample04"
-                                          aria-expanded="false" aria-label="Toggle navigation">
-                                          <span class="navbar-toggler-icon"></span>
-                                       </button>
-                                       <div class="collapse navbar-collapse" id="navbarsExample04">
-                                          <ul class="navbar-nav mr-auto">
-                                             <li class="nav-item active">
-                                                   <a class="nav-link" href="logout.php">Log Out</a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                 </nav>
-                              </div>
-                           </div>
-                     </div>
-                  </div>
-               </div>
-         </div>
-      </div>
+         <?php include 'navbar.php'; ?> 
+      
       <!-- end header inner -->
       <!-- end header -->
       <!-- banner -->
@@ -248,7 +213,7 @@ $supervisorId = json_encode($_SESSION['record']); // Encode supervisor ID for Ja
                   <a href="vital signs.php">
                      <div id="text_hover" class="const text_align_center">
                            <i><img src="images/ser1.png" alt="#" /></i>
-                           <span>VITAL SIGNS</span>
+                           <span>Safety Monitoring</span>
                      </div>
                   </a>
                </div>
