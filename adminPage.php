@@ -12,6 +12,7 @@ $jsonString = file_get_contents('database.json');
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Ensures responsiveness -->
   <title> Admin page</title>
   <style>
    body {
@@ -77,6 +78,33 @@ input[type="submit"]:hover {
           background-color: #f1f1f1;
           color: black;
         }
+        /* Responsive Design */
+  @media (max-width: 768px) {
+            .screen {
+                width: 90%; /* Shrinks the screen to fit smaller devices */
+                height: auto;
+                padding: 20px;
+            }
+
+            .title {
+                font-size: 20px; /* Reduces title size for smaller screens */
+            }
+
+            .button {
+                font-size: 16px;
+                padding: 14px 18px;
+            }
+        }
+		@media (max-width: 480px) {
+            .title {
+                font-size: 18px;
+            }
+
+            .button {
+                font-size: 14px;
+                padding: 12px 16px;
+            }
+        }
    
 
   </style>
@@ -100,94 +128,150 @@ input[type="submit"]:hover {
       <meta http-equiv="Expires" content="0" />
 
 <!-- site metas -->
-<title>SMART HELMET</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
+  <!-- Firebase scripts -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-app-compat.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-database-compat.js"></script>
+<script src="js/firebaseConfig.js"></script> <!-- Include Firebase config -->
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </head>
 <body>
   <!-- header -->
  <header class="full_bg">
-  <!-- header inner -->
-  <div class="header">
-     <div class="container">
-        <div class="row">
-           <div class="col-md-12">
-              <div class="header_bottom">
-                 <div class="row">
-                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
-                       <div class="full">
-                          <div class="center-desk">
-                             <div class="logo">
-                               <img class="nav-img" src="img/Screenshot_2024-02-16_160751-removebg-preview.png" alt="logo"/>
-                             </div>
-                          </div>
-                       </div>
-                    </div>
-                    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-                       <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
-                          <span class="navbar-toggler-icon"></span>
-                          </button>
-                          <div class="collapse navbar-collapse" id="navbarsExample04">
-                             <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
-                                   <a class="nav-link" href="logout.php">Log Out</a>
-                                </li>
-                             </ul>
-                          </div>
-                       </nav>
-                    </div>
-                 </div>
-              </div>
-           </div>
-        </div>
-     </div>
-  </div>
+   <!-- header inner -->
+  <?php include "navbar.php" ?>
+  <?php
+         if($_SESSION['role'] == 'admin')
+         {
+            // echo <<< _EOF
+            // <div type="button" class="btn btn-primary float-right mr-2" data-toggle="modal" data-target="#timeSettingsModal">
+            // <i class="fa fa-clock-o"></i> Set Attendance
+            // </div>
+            // _EOF;
+         }
+      ?>
+
+
   <!-- end header inner -->
   <!-- end header -->
+ 
+ 
 
-  <h1 style="color: rgb(248, 242, 232); text-align: center; font-size: 50px;position: relative; top: 0.5em;"> Register New Supervisor</h1>  
 
-  
-  <div class="form-container">
-   <form method="post">
-       <div class="form-field">
-         <label for="name" style="color: rgb(255, 255, 255);">Name:</label>
-         <input type="text" id="name" name="name" required>
-       </div>
-       <div class="form-field">
-         <label for="email" style="color: rgb(255, 255, 255);">Email(in Gmail):</label>
-           <input type="email" id="email" name="email" required>
-       </div>
-       <div class="form-field">
-            <label for="confirm_email" style="color: rgb(255, 255, 255);">Confirm Email:</label>
-            <input type="email" id="confirm_email" name="confirm_email" required onpaste="return false" oncopy="return false">
-        </div>
+ <!-- four_box -->
+ <div class="three_box" style="margin-top: 20vh">
+      <div class="container">
+         <div class="row">
+               <div class="col-md-3">
+                  <a href="registerNewWorker.php">
+                     <div id="text_hover" class="const text_align_center">
+                           <i class="fa fa-user-plus text-dark" style="font-size: 15vh;"></i>
+                           <span>Register New Worker</span>
+                     </div>
+                  </a>
+               </div>
 
-       <div class="form-field">
-         <label for="workers" style="color: rgb(255, 255, 255);">Assigning workers:</label>
-         <select id="workerIds" required>
-             <?php
-             // Decode JSON string to PHP array
-             $data = json_decode($jsonString, true);
-     
-             // Iterate through workers and populate datalist options
-             foreach ($data['workers'] as $worker) {
-                 echo "<option value='" . $worker['ID'] . "'> " . $worker['ID'] . "</option>";
-             }
-             ?>
-         </select>
-         <button class="addWorkerBtn" type="button" onclick="addWorker()">Add</button>
-         <div id="selectedWorkers"></div>
-         <input type="hidden" name="worker_ids" id="workerIdsHidden">
-     </div>
+               <div class="col-md-3">
+                  <a href="registerNewSupervisor.php">
+                     <div id="text_hover" class="const text_align_center">
+                           <i class="fa fa-user-plus text-dark" style="font-size: 15vh;"></i>
+                           <span>Register New Supervisor</span>
+                     </div>
+                  </a>
+               </div>
 
-     <input type="submit" value="Register Supervisor">
-   </form>
-</div>
+               <div class="col-md-3">
+                  <a href="shifts.php">
+                     <div id="text_hover" class="const text_align_center">
+                            <i class="fa fa-sync-alt text-dark" style="font-size: 15vh;"></i>
+                           <span>Shifts</span>
+                     </div>
+                  </a>
+               </div>
 
+               <div class="col-md-3">
+                  <a href="setTimeAttendance.php">
+   
+                     <div id="text_hover" class="const text_align_center" >
+                           <i class="fa fa-clock text-dark" style="font-size: 15vh;"></i>
+                           <span>Set Time Attendance</span>
+                     </div>
+                  </a>
+               </div>
+         </div>
+         <br />
+         <div class="row">
+               <div class="col-md-3">
+                  <a href="showWorkers.php">
+                     <div id="text_hover" class="const text_align_center">
+                           <i class="fa fa-users text-dark" style="font-size: 15vh;"></i>
+                           <span>list of workers</span>
+                     </div>
+                  </a>
+               </div>
+               <div class="col-md-3">
+               <a href="showsupervisors.php">
+                     <div id="text_hover" class="const text_align_center">
+                           <i class="fa fa-users text-dark" style="font-size: 15vh;"></i>
+                           <span> list of Supervisors</span>
+                     </div>
+                  </a>
+               </div>
+         </div>
+      </div>
+   </div>
+   <!-- end four_box -->
+   
+<?php
+   if($_SESSION['role'] == 'admin')
+   {
+      echo <<<__EOF
+      <!-- Modal Structure -->
+      <div class="modal fade" id="timeSettingsModal" tabindex="-1" role="dialog" aria-labelledby="timeSettingsModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="timeSettingsModalLabel">Set Attendance Times</h5>
+                      <a type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </a>
+                  </div>
+                  <div class="modal-body">
+                      <form method="post" action="attendanceSettings.php">
+                          <div class="form-group">
+                              <label for="beginningTime">Allowed Beginning Time:</label>
+                              <input type="time" class="form-control" id="beginningTime" name="beginningTime" required>
+                          </div>
+                          <div class="form-group">
+                              <label for="leavingTime">Allowed Leaving Time:</label>
+                              <input type="time" class="form-control" id="leavingTime" name="leavingTime" required>
+                          </div>
+                          <div class="form-group">
+                              <label for="delayTime">Delay Time (minutes):</label>
+                              <input type="number" class="form-control" id="delayTime" name="delayTime" required min="0">
+                          </div>
+                          <div class="form-group">
+                              <label for="absentTime">Absent Time (Hours):</label>
+                              <input type="number" class="form-control" id="absentTime" name="absentTime" required min="0">
+                          </div>
+                          <input type="submit" class="btn btn-primary" value="Save Settings">
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+      __EOF;
+   }
+
+
+   ?>
 <!-- truck movment-->
 <div class="truck">
   <div class="container-fluid">
@@ -264,7 +348,34 @@ document.getElementById('registrationForm').addEventListener('submit', function(
 </body>
 
 </html>
+<script>
 
+
+
+const db = firebase.database();
+// const storage = firebase.storage();
+const attendanceSettingsRef = db.ref('attendance-settings');
+
+
+window.onload = function() {
+   // Fetch the settings from Firebase
+   attendanceSettingsRef.once('value', (snapshot) => {
+         const settings = snapshot.val();
+
+         if (settings) {
+            // Populate the form fields with data from Firebase
+            document.getElementById('beginningTime').value = settings.beginningTime || '';
+            document.getElementById('leavingTime').value = settings.leavingTime || '';
+            document.getElementById('delayTime').value = settings.delayTime || '';
+            document.getElementById('absentTime').value = settings.absentTime || '';
+         }
+   }).catch((error) => {
+         console.error("Error fetching settings:", error);
+   });
+};
+
+
+</script>
 <?php
 
 // Function to register a supervisor
@@ -353,5 +464,3 @@ function postToFirebase($data) {
 registerSupervisor();
 
 ?>
-
-
