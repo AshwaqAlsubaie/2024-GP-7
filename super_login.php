@@ -1,3 +1,48 @@
+<?php
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get form data
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+	$url = 'https://smart-helmet-database-affb6-default-rtdb.firebaseio.com/supervisors.json';
+	$ch = curl_init($url);
+
+	// Set cURL options for a GET request
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+
+	// Execute cURL session
+	$response = curl_exec($ch);
+
+	// Close cURL session
+	curl_close($ch);
+
+	// Decode JSON response
+	$supervisorData = json_decode($response, true);
+
+
+    // Check if email and password match
+    foreach ($supervisorData as $recordId => $supervisor) {
+        if ($supervisor['email'] == $email && $supervisor['password'] == md5($password) ) {
+            // Authentication successful, set session variables and redirect
+			
+		$_SESSION['record'] = $recordId;
+		$_SESSION['ID'] = $supervisor['ID'];
+                $_SESSION['email'] = $email;
+                $_SESSION['role'] = "supervisor"; 
+
+             header("Location: index.php");
+            exit();
+        }
+    }
+
+    // If no match found, redirect back to login page with error message
+	echo "<script>alert('Wrong E-mail or password')</script>";
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,6 +50,8 @@
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Ensures responsiveness -->
+
 
     <style>
 
@@ -93,7 +140,33 @@ body {
 	right: 50px;	
 	border-radius: 60px;
 }
+/* Responsive Design */
+@media (max-width: 768px) {
+            .screen {
+                width: 90%; /* Shrinks the screen to fit smaller devices */
+                height: auto;
+                padding: 20px;
+            }
 
+            .title {
+                font-size: 20px; /* Reduces title size for smaller screens */
+            }
+
+            .button {
+                font-size: 16px;
+                padding: 14px 18px;
+            }
+        }
+		@media (max-width: 480px) {
+            .title {
+                font-size: 18px;
+            }
+
+            .button {
+                font-size: 14px;
+                padding: 12px 16px;
+            }
+        }
 .login {
 	width: 320px;
 	padding: 30px;
@@ -178,8 +251,15 @@ body {
 					<i class="login__icon fas fa-lock"></i>
 					<input type="password" id ="pass" class="login__input" placeholder="Password" name="password" required>
 				</div>
+				
+				 <div style="text-align: center; margin-top: 20px;">
+                <a href="recover_password.php" style="color: #007bff; text-decoration: none;">Forgot Password?</a>
+            </div>
+            
 				<input class="button login__submit" type="submit" value="Log In" />	  
 			</form>
+			
+			
 			
 		</div>
 		<div class="screen__background">
@@ -192,48 +272,3 @@ body {
 </div>
 </body>
 </html>
-<?php
-session_start();
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get form data
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-	$url = 'https://smart-helmet-database-affb6-default-rtdb.firebaseio.com/supervisors.json';
-	$ch = curl_init($url);
-
-	// Set cURL options for a GET request
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-
-	// Execute cURL session
-	$response = curl_exec($ch);
-
-	// Close cURL session
-	curl_close($ch);
-
-	// Decode JSON response
-	$supervisorData = json_decode($response, true);
-
-
-    // Check if email and password match
-    foreach ($supervisorData as $recordId => $supervisor) {
-        if ($supervisor['email'] == $email && $supervisor['password'] == md5($password) ) {
-            // Authentication successful, set session variables and redirect
-			
-		$_SESSION['record'] = $recordId;
-		$_SESSION['ID'] = $supervisor['ID'];
-                $_SESSION['email'] = $email;
-                $_SESSION['role'] = "supervisor"; 
-
-            header("Location: super_home.php");
-            exit();
-        }
-    }
-
-    // If no match found, redirect back to login page with error message
-	echo "<script>alert('Wrong E-mail or password')</script>";
-    exit();
-}
-?>
