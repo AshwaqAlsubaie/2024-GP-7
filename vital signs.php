@@ -25,6 +25,10 @@ $supervisorId = json_encode($_SESSION['record']); // Encode supervisor ID for Ja
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
 <style>
@@ -137,6 +141,35 @@ $supervisorId = json_encode($_SESSION['record']); // Encode supervisor ID for Ja
             font-weight: bold;
             color: #ffffff;
         }
+         td {
+    color: black !important; /* Forces the text color to black */
+}
+
+@media (max-width: 768px) {
+            .screen {
+                width: 90%; /* Shrinks the screen to fit smaller devices */
+                height: auto;
+                padding: 20px;
+            }
+
+            .title {
+                font-size: 20px; /* Reduces title size for smaller screens */
+            }
+
+            .button {
+                font-size: 16px;
+                padding: 14px 18px;
+            }
+        }
+		@media (max-width: 480px) {
+            .title {
+                font-size: 18px;
+            }
+
+            .button {
+                font-size: 14px;
+                padding: 12px 16px;
+            }}
     </style>
 </head>
 
@@ -144,41 +177,7 @@ $supervisorId = json_encode($_SESSION['record']); // Encode supervisor ID for Ja
 <!-- header -->
 <header class="full_bg">
   <!-- header inner -->
-  <div class="header">
-     <div class="container">
-        <div class="row">
-           <div class="col-md-12">
-              <div class="header_bottom">
-                 <div class="row">
-                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
-                       <div class="full">
-                          <div class="center-desk">
-                             <div class="logo">
-                               <a href="index.php" ><img class="nav-img" src="img/Screenshot_2024-02-16_160751-removebg-preview.png" alt="logo"/></a>
-                             </div>
-                          </div>
-                       </div>
-                    </div>
-                    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-                       <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
-                          <span class="navbar-toggler-icon"></span>
-                          </button>
-                          <div class="collapse navbar-collapse" id="navbarsExample04">
-                             <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
-                                   <a class="nav-link" href="logout.php">Log Out</a>
-                                </li>
-                             </ul>
-                          </div>
-                       </nav>
-                    </div>
-                 </div>
-              </div>
-           </div>
-        </div>
-     </div>
-  </div>
+  <?php include "navbar.php" ?>
   <!-- end header inner -->
   <!-- end header -->
   <!-- Legend for status images -->
@@ -201,8 +200,9 @@ $supervisorId = json_encode($_SESSION['record']); // Encode supervisor ID for Ja
 </div>
   
 <div class="table-container">
-      <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search by Name or ID">
-    <table id="vitalSignsTable">
+      <input class="form-control w-100" type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search by Name or ID">
+      <div class="table-responsive">
+      <table class="table" id="vitalSignsTable">
         <thead>
             <tr>
                 <th>ID</th>
@@ -218,6 +218,7 @@ $supervisorId = json_encode($_SESSION['record']); // Encode supervisor ID for Ja
             <!-- Content will be filled by JavaScript -->
         </tbody>
     </table>
+        </div>
       </div>
 
     <script>
@@ -316,7 +317,7 @@ function addToTable(worker, sensorData) {
         // If the worker is in a critical state or needs attention
         if ((sensorData.BodyTemperature > 39 || sensorData.BodyTemperature < 36) || 
             (sensorData.BPM > 120 || sensorData.BPM < 60) || 
-            sensorData.GasDetected === "Detected" || sensorData.FallDetected === "Detected") {
+            (sensorData.GasDetected === "Gas Detected" || sensorData.FallDetected === "Fall Detected")) {
 
             color = '#ffcccc'; // Critical color
             statusImg.src = 'images/abnormal.png';
@@ -336,7 +337,7 @@ function addToTable(worker, sensorData) {
    
          
 
-        } else if ((sensorData.BodyTemperature > 37.2 && sensorData.BodyTemperature <= 39) || 
+        } else if ((sensorData.BodyTemperature > 37.2 && sensorData.BodyTemperature <= 39) ||
                    (sensorData.BPM > 110 && sensorData.BPM <= 120)) {
 
             color = '#ffff99'; // Needs Attention color
@@ -352,9 +353,9 @@ function addToTable(worker, sensorData) {
             })
         })
 
-        } else if ((sensorData.BodyTemperature >= 36 && sensorData.BodyTemperature <= 37.1) || 
-                   (sensorData.BPM > 60 && sensorData.BPM <= 110) || 
-                   sensorData.GasDetected === "No Gas Detected" ) {
+        } else if ((sensorData.BodyTemperature >= 36 && sensorData.BodyTemperature <= 37.1) ||
+                   (sensorData.BPM > 60 && sensorData.BPM <= 110) ||
+                   (sensorData.GasDetected === "No Gas Detected" || sensorData.FallDetected === "No Fall Detected")) {
 
             statusImg.src = 'images/normal.png';
         }
