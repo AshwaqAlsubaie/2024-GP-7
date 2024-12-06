@@ -128,42 +128,9 @@ $supervisorId = $_SESSION['record'];
 
       <!-- header -->
       <header class="full_bg">
-         <!-- header inner -->
-         <div class="header">
-            <div class="container">
-               <div class="row">
-                  <div class="col-md-12">
-                     <div class="header_bottom">
-                        <div class="row">
-                           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
-                              <div class="full">
-                                 <div class="center-desk">
-                                    <div class="logo">
-                                      <a href="index.php" ><img class="nav-img" src="img/Screenshot_2024-02-16_160751-removebg-preview.png" alt="#"/></a>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-                              <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
-                                 <span class="navbar-toggler-icon"></span>
-                                 </button>
-                                 <div class="collapse navbar-collapse" id="navbarsExample04">
-                                    <ul class="navbar-nav mr-auto">
-                                       <li class="nav-item active">
-                                          <a class="nav-link" href="logout.php">Log Out</a>
-                                       </li>
-                                    </ul>
-                                 </div>
-                              </nav>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
+       <!-- heade inner -->
+      <?php include "navbar.php" ?>
+        
          <!-- end header inner -->
          <!-- end header -->
          <!-- banner -->
@@ -195,7 +162,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebas
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
 import { getDatabase, ref as databaseRef, set, push, get } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
-// Your Firebase config
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyD02_rLhSo8zX3PGFN6pZS3Eg5szrxZ1QA",
   authDomain: "smart-helmet-database-affb6.firebaseapp.com",
@@ -290,7 +257,16 @@ document.getElementById('uploadBtn').addEventListener('click', () => {
                     getDownloadURL(snapshot.ref).then(downloadURL => {
                         const messagesRef = push(databaseRef(database, 'messages/' + workerId + '/message'));
                         const currentTimestamp = new Date();
-                        const readableDate = currentTimestamp.toLocaleString('en-US');
+                       const readableDate = currentTimestamp.toLocaleString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true // Ensure AM/PM format
+});
+
 
                         // Save the message to each worker's node
                         set(messagesRef, {
