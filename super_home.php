@@ -1,280 +1,203 @@
-<?php
-session_start();
-
- if(!$_SESSION['role'] == 'supervisor')
- {
-    header("location: preLogin.php");
- }
-?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title> Admin page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Re-change Password</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-   body {
-  font-family: Arial, sans-serif;
-}
-
-h2 {
-  text-align: center;
-  margin-top: 20px;
-}
-
-form {
-  text-align: center;
-  margin-top: 20px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-
-input[type="submit"] {
-  margin-bottom: 10px;
-}
-
-input[type="submit"] {
-  background-color: #2e5ff2;
+  body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(to right, #283048, #859398);
   color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
+  height: 100vh;
+  margin: 0;
 }
 
-input[type="submit"]:hover {
-  background-color: #0e3e6d;
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 70px); 
 }
 
 
-        .form-container {
-            display: flex;
-            flex-direction: column;
-            width: 300px; 
-            margin: auto; 
-        }
-        .form-field {
-            margin-bottom: 20px; /* Space between fields */
-        }
-        input[type="text"], input[type="email"], input[type="password"]{
-            width: 100%; 
-        }
-        select{
-         width: 80%;
-        }
-        .addWorkerBtn{
-          padding: 3px 8px;
-          border: 1px solid black;
-          border-radius: 50px;
-        }
-        .badge{
-          background-color: #f1f1f1;
-          color: black;
-        }
-        .button-link {
-    display: inline-block;
-    background-color: #f1f1f1; 
-    color: black;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
+    .form-container {
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+    }
 
-.button-link:hover {
-    background-color: #0056b3; 
-    color: white;
-    text-decoration: none;
-}
+    .form-container h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
 
-   
+    .form-container label {
+      color: #fff;
+      font-size: 0.9rem;
+    }
 
+    .form-container .form-control {
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: #fff;
+      border-radius: 5px;
+      padding: 10px;
+    }
+
+    .form-container .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .form-container .form-control:focus {
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      border: none;
+    }
+
+    .form-container .btn-primary {
+      background-color: #0056b3;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      width: 100%;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .form-container .btn-primary:hover {
+      background-color: #003e75;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #ddd;
+    }
+
+    footer p {
+      margin: 0;
+    }
   </style>
-<link rel="stylesheet" href="Css/VitalStyle.css">
-<link rel="stylesheet" href="Css/commCss.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/responsive.css">
-<link rel="icon" href="images/fevicon.png" type="image/gif" />
-<link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
-<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-
-    <!-- mobile metas -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="viewport" content="initial-scale=1, maximum-scale=1">
-
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-      <meta http-equiv="Pragma" content="no-cache" />
-      <meta http-equiv="Expires" content="0" />
-
-<!-- site metas -->
-<title>SMART HELMET</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
-<meta name="author" content="">
+    <!-- Header -->
 
 </head>
 <body>
-  <!-- header -->
- <header class="full_bg">
-  <!-- header inner -->
-  <div class="header">
-     <div class="container">
-        <div class="row">
-           <div class="col-md-12">
-              <div class="header_bottom">
-                 <div class="row">
-                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
-                       <div class="full">
-                          <div class="center-desk">
-                             <div class="logo">
-                               <img class="nav-img" src="img/Screenshot_2024-02-16_160751-removebg-preview.png" alt="logo"/>
-                             </div>
-                          </div>
-                       </div>
-                    </div>
-                    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-                       <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
-                          <span class="navbar-toggler-icon"></span>
-                          </button>
-                          <div class="collapse navbar-collapse" id="navbarsExample04">
-                             <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
-                                   <a class="nav-link" href="logout.php">Log Out</a>
-                                </li>
-                             </ul>
-                          </div>
-                       </nav>
-                    </div>
-                 </div>
-              </div>
-           </div>
+  <!-- Header -->
+  <?php include "navbar.php"; ?>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="form-container">
+      <h1>Re-change Password</h1>
+      <form method="post">
+        <div class="form-group">
+          <label for="password">New Password:</label>
+          <input type="password" class="form-control" id="password" name="password" required pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}" title="Password must be at least 8 characters long and contain at least one letter, one number, and one special character">
         </div>
-     </div>
+        <div class="form-group">
+          <label for="confirm">Confirm Password:</label>
+          <input type="password" class="form-control" id="confirm" name="confirm" required pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}" title="Password must be at least 8 characters long and contain at least one letter, one number, and one special character">
+        </div>
+        <button type="submit" class="btn btn-primary">Change Password</button>
+      </form>
+    </div>
   </div>
-  <!-- end header inner -->
-  <!-- end header -->
-
-  <h1 style="color: rgb(248, 242, 232); text-align: center; font-size: 50px;position: relative; top: 0.5em;"> Re-change the password</h1>  
-
-  
-  <div class="form-container">
-
-   <form method="post">
-       <div class="form-field">
-         <label for="password" style="color: rgb(255, 255, 255);">New password:</label>
-         <input type="password" id="password" name="password" required pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}" title="Password must be at least 8 characters long and contain at least one letter, one number, and one special character">
-       </div>
-
-       <div class="form-field">
-           <label for="confirm" style="color: rgb(255, 255, 255);">Confirm password:</label>
-           <input type="password" id="confirm" name="confirm" required pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}" title="Password must be at least 8 characters long and contain at least one letter, one number, and one special character">
-       </div>
-       <div class="form-field">
-           <a href="index.php" class="button-link">I already reset it, take me to the home page</a>
-       </div>
 
 
-       <input type="submit" value="Change Password">
-
-   </form>
-</div>
-
-<!-- truck movment-->
-<div class="truck">
-  <div class="container-fluid">
-     <div class="row">
-        <div class="col-md-6 jkhgkj">
-           <div class="truck_img1">
-              <img src="images/truck.png" alt="#"/>
-           </div>
-        </div>
-        <div class="col-md-6">
-           <div class="truck_img1">
-              <img src="images/jcb.png" alt="#"/>
-           </div>
-        </div>
-     </div>
-  </div>
-</div>
-<!-- end truck movment-->
-<!--  footer -->
-<footer>
-  <div class="footer">
-     <div class="container">
-        <div class="row">
-      
-        </div>
-     </div>
-     <div class="copyright">
-        <div class="container">
-           <div class="row">
-              <div class="col-md-8 offset-md-2">
-                 <p>© 2024 SMART HELMET</a></p>
-              </div>
-           </div>
-        </div>
-     </div>
-  </div>
-</footer>
-<!-- end footer -->
-
-</body>
-</html>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-   // Get form data
-   $password = $_POST['password'];
-   $confirm = $_POST['confirm'];
+    // Get form data
+    $password = $_POST['password'];
+    $confirm = $_POST['confirm'];
 
-   if ($password !== $confirm) {
-       echo "<script>alert('Password Do not Match!')</script>";
-       exit();
-   } else {
-       $url = 'https://smart-helmet-database-affb6-default-rtdb.firebaseio.com/supervisors.json';
-       $ch = curl_init($url);
-       
-       // Set cURL options for a GET request
-       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-       
-       // Execute cURL session
-       $response = curl_exec($ch);
-       
-       // Close cURL session
-       curl_close($ch);
-       
-       // Decode JSON response
-       $supervisorData = json_decode($response, true);
-       
-       // Check if email and password match
-       foreach ($supervisorData as &$supervisor) {
-           if ($supervisor['ID'] == $_SESSION['ID'] ) {
-               // Update the password in the original array
-               $supervisor['password'] = md5($password);
-               break; // Stop looping once the supervisor is found
-           }
-       }
+    // Check if passwords match
+    if ($password !== $confirm) {
+        echo "<script>alert('Passwords do not match!');</script>";
+        exit();
+    } else {
+        // Start output buffering to prevent unexpected output
+        ob_start();
 
-       var_dump($supervisorData);
+        // Fetch data from Firebase
+        $url = 'https://smart-helmet-database-affb6-default-rtdb.firebaseio.com/supervisors.json';
+        $ch = curl_init($url);
+        
+        // Set cURL options for a GET request
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        
+        // Execute cURL session
+        $response = curl_exec($ch);
+        
+        // Close cURL session
+        curl_close($ch);
 
-       // Update the data in the Firebase Realtime Database
-       $url = 'https://smart-helmet-database-affb6-default-rtdb.firebaseio.com/supervisors.json';
-       $ch = curl_init($url);
-       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-       curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($supervisorData));
-       curl_exec($ch);
-       curl_close($ch);
+        // Check if the response is valid
+        if (!$response) {
+            echo "<script>alert('Failed to connect to the database.');</script>";
+            ob_end_clean(); // Clear the output buffer
+            exit();
+        }
+        
+        // Decode JSON response
+        $supervisorData = json_decode($response, true);
 
-       echo "<script>alert('Password Changed Successfully!')</script>";
-       exit();
-   }
+        // Ensure JSON decoding is successful
+        if (!$supervisorData) {
+            echo "<script>alert('Invalid data received from the database.');</script>";
+            ob_end_clean(); // Clear the output buffer
+            exit();
+        }
+        
+        // Loop through each supervisor record to find the one with matching ID
+        foreach ($supervisorData as &$supervisor) {
+            if ($supervisor['ID'] == $_SESSION['ID']) {
+                // Update the password in the original array
+                $supervisor['password'] = md5($password);
+                break; // Stop looping once the supervisor is found
+            }
+        }
+
+        // Update the data in the Firebase Realtime Database
+        $url = 'https://smart-helmet-database-affb6-default-rtdb.firebaseio.com/supervisors.json';
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($supervisorData));
+        curl_exec($ch);
+        curl_close($ch);
+
+        // End output buffering
+        ob_end_clean();
+
+        // Show success message
+        echo "<script>alert('Password Changed Successfully!');</script>";
+        exit();
+    }
 }
-
 ?>
+
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2024 SMART HELMET. All rights reserved.</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
