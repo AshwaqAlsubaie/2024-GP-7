@@ -5,12 +5,23 @@ Project Title: Smart Helmet
 
 
 
-technology:
+Technology Used:
 -firebase
 - css, html, js, php
 - Arduino
 
 
-launching instructions:
+Launching Instructions:
 For the website, download all the files in a folder and then open it in a IDE that supports web languages, such as Visual Studio, NetBeans, etc. We needed the composer to be able to load libraries in php like: PHPMailer.
 For the Arduino, Open the Arduino file in Arduino, but the devices used in this project must be available.
+
+Login Credentials:
+For Supervisor:
+Email: s646192@gmail.com
+Password: 12345Aa@
+For Admin:
+Email: abc@admin.com
+Password: 12345678
+
+Link GitHub repository:
+https://github.com/AshwaqAlsubaie/2024-GP-7.git
