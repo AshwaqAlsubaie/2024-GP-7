@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
 
     // Fetch data from Firebase
-    $url = 'https://smart-helmet-database-affb6-default-rtdb.firebaseio.com/admin.json'; // Replace with your actual Firebase URL
+    $url = 'https://smart-helmet-database-affb6-default-rtdb.firebaseio.com/admin.json'; // actual Firebase URL
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
