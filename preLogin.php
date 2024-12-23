@@ -1,60 +1,4 @@
-<?php
-// Start session to track user login
-session_start();
 
-// Check if user is already logged in, if so, redirect to another page (e.g., admin/dashboard)
-if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-    header('Location: dashboard.php'); // Redirect to dashboard or another protected page
-    exit();
-}
-
-// If login attempt is made, handle authentication
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    // Replace with your database connection
-    $conn = new mysqli('localhost', 'root', '', 'gp1'); // Adjust your DB credentials
-
-    if ($conn->connect_error) {
-        die('Connection failed: ' . $conn->connect_error);
-    }
-
-    // Prevent SQL Injection
-    $username = $conn->real_escape_string($username);
-    $password = $conn->real_escape_string($password);
-
-    // Query to validate user
-    $query = "SELECT * FROM users WHERE username='$username'";
-    $result = $conn->query($query);
-
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        
-        // Verify password (hashed passwords recommended)
-        if (password_verify($password, $user['password'])) {
-            // Set session variables
-            $_SESSION['logged_in'] = true;
-            $_SESSION['username'] = $username;
-            $_SESSION['role'] = $user['role']; // e.g., 'admin', 'supervisor'
-
-            // Redirect to the correct page based on user role
-            if ($_SESSION['role'] === 'admin') {
-                header('Location: admin_dashboard.php'); // Redirect to admin page
-            } else {
-                header('Location: supervisor_dashboard.php'); // Redirect to supervisor page
-            }
-            exit();
-        } else {
-            echo 'Invalid credentials';
-        }
-    } else {
-        echo 'No user found';
-    }
-
-    $conn->close();
-}
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -65,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta http-equiv="Expires" content="0" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-        /* Include your CSS styles here (same as your provided code) */
+       
         @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Raleway, sans-serif; }
